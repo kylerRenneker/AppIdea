@@ -3,22 +3,34 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
-const { PORT } = require('./config')
+const { NODE_ENV } = require('./config')
+const ideaRouter = require('./ideas/ideas_router')
 
 const app = express()
-
-app.get('/', (reg, res) => {
-    res.send('AppIdea App')
-})
 
 const morganOption = (process.env.NODE_ENV === 'production')
     ? 'tiny'
     : 'common';
 
-app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`))
 
 app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
+
+app.use('/api/ideas', ideaRouter)
+app.get('/', (reg, res) => {
+    res.send('AppIdea App')
+})
+
+app.use(function errorHandler(error, req, res, next) {
+    let response
+    if (NODE_ENV === 'production') {
+        response = { error: { message: 'server error' } }
+    } else {
+        console.log(error)
+        response = { message: error.message, error }
+    }
+    res.status(500).json(response)
+})
 
 module.exports = app
