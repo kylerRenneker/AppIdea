@@ -1,32 +1,28 @@
-// const Knex = require('knex')
-// const connection = require('../../knexfile')
-// const { Model } = require('objection')
+const Knex = require('knex')
+const connection = require('../../knexfile')
+const { Model } = require('objection')
+const knexConnection = Knex(connection)
 
-// const knexConnection = Knex(connection)
+Model.knex(knexConnection)
 
-// Model.knex(knexConnection)
+class User extends Model {
+    static get tableName() {
+        return 'users'
+    }
 
-// const { Idea } = require('./ideasSchema')
+    static get relationMappings() {
+        const Idea = require('./ideasSchema')
+        return {
+            idea: {
+                relation: Model.HasManyRelation,
+                modelClass: Idea,
+                join: {
+                    from: 'ideas.id',
+                    to: 'ideas.user_id'
+                }
+            }
+        }
+    }
+}
 
-
-// class User extends Model {
-//     static get tableName() {
-//         return 'users'
-//     }
-
-//     static get relationMappings() {
-//         return {
-//             user: {
-//                 relation: Model.HasManyRelation,
-//                 modelClass: Idea,
-//                 join: {
-//                     from: 'ideas.id',
-//                     to: 'ideas.user_id'
-//                 }
-//             }
-//         }
-//     }
-
-// }
-
-// module.exports = User
+module.exports = User
