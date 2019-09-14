@@ -6,6 +6,7 @@ exports.up = function (knex) {
             table.string('title', 255).notNullable()
             table.string('description', 2000).notNullable()
             table.integer('user_id').references('users.id')
+            table.timestamp('created_at').defaultTo(knex.fn.now())
         })
 };
 
