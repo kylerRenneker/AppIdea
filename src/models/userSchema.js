@@ -1,7 +1,7 @@
 const Knex = require('knex')
-const connection = require('../../knexfile')
+const { development } = require('../../knexfile')
 const { Model } = require('objection')
-const knexConnection = Knex(connection)
+const knexConnection = Knex(development.connection)
 
 Model.knex(knexConnection)
 

@@ -4,7 +4,8 @@ const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
-const ideaRouter = require('./ideas/ideas_router')
+const ideasRouter = require('./ideas/ideas_router')
+const usersRouter = require('./users/users_router')
 
 const app = express()
 
@@ -17,7 +18,9 @@ app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
 
-app.use('/api/ideas', ideaRouter)
+app.use('/api/ideas', ideasRouter)
+app.use('/api/users', usersRouter)
+
 app.get('/', (reg, res) => {
     res.send('AppIdea App')
 })

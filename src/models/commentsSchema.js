@@ -5,41 +5,33 @@ const knexConnection = Knex(development.connection)
 
 Model.knex(knexConnection)
 
-class Idea extends Model {
+class Comment extends Model {
     static get tableName() {
-        return 'ideas'
-    }
-
-    static get modifiers() {
-        return {
-            usernamesAndComments(builder) {
-                builder.select('username', 'text')
-            }
-        }
+        return 'comments'
     }
 
     static get relationMappings() {
         const User = require('./userSchema')
-        const Comment = require('./commentsSchema')
+        const Idea = require('./ideasSchema')
         return {
             user: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: User,
                 join: {
-                    from: 'ideas.user_id',
+                    from: 'comments.user_id',
                     to: 'users.id'
                 }
             },
-            comments: {
-                relation: Model.HasManyRelation,
-                modelClass: Comment,
+            idea: {
+                relation: Model.BelongsToOneRelation,
+                modelClass: Idea,
                 join: {
-                    from: 'ideas.id',
-                    to: 'comments.idea_id'
+                    from: 'comment.idea_id',
+                    to: 'ideas.id'
                 }
-            },
+            }
         }
     }
 }
 
-module.exports = Idea
+module.exports = Comment
