@@ -10,7 +10,6 @@ class Idea extends Model {
         return 'ideas'
     }
 
-<<<<<<< HEAD
     // static get modifiers() {
     //     return {
     //         usernamesAndComments(builder) {
@@ -18,15 +17,6 @@ class Idea extends Model {
     //         }
     //     }
     // }
-=======
-    static get modifiers() {
-        return {
-            usernamesAndComments(builder) {
-                builder.select('username', 'text')
-            }
-        }
-    }
->>>>>>> 5783f4d1962e6ac2666dcf2dd2b1d47eaedc1207
 
     static get relationMappings() {
         const User = require('./userSchema')
